@@ -22,6 +22,7 @@ def get_questions_db(level):
     question = [random.choice(questions_from_level) for i in range(20)]
     return question
 
+
 # Проверка ответа пользователя
 def check_user_answer_db(question_id, user_answer):
     current_question = Question.query.get(question_id)
@@ -31,4 +32,16 @@ def check_user_answer_db(question_id, user_answer):
         return True
     return False
 
+
 # добавление вопросов в базу (ДЗ)
+def add_question_db(main_question, answer_1, answer_2, answer_3, answer_4, correct_answer, level):
+    question = Question(main_question=main_question,
+                        answer_1=answer_1,
+                        answer_2=answer_2,
+                        answer_3=answer_3,
+                        answer_4=answer_4,
+                        level=level,
+                        correct_answer=correct_answer)
+    db.session.add(question)
+    db.session.commit()
+
