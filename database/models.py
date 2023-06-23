@@ -1,5 +1,7 @@
-from main import db
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+
+db = SQLAlchemy()
 
 
 # Таблица пользвателей
@@ -34,6 +36,7 @@ class Result(db.Model):
     user_answer = db.Column(db.String, nullable=True)
     correctness = db.Column(db.Boolean, default=True)
     level = db.Column(db.String)
+    answer_time = db.Column(db.DateTime)
 
     user_fk = db.relationship(User)
     question_fk = db.relationship(Question)
@@ -42,7 +45,9 @@ class Result(db.Model):
 # Таблица для рейтинга
 class Rating(db.Model):
     __tablename__ = 'ratings'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user_correct_answer = db.Column(db.Integer, default=0)
+    level = db.Column(db.String)
 
     user_fk = db.relationship(User)
