@@ -17,7 +17,7 @@ def get_questions_db(level):
         return questions
 
     # Если указал сложность , то фильтр по вопросам
-    questions_from_level = Question.query.filter(level=level).all()
+    questions_from_level = Question.query.filter_by(level=level).all()
 
     question = [random.choice(questions_from_level) for i in range(20)]
     return question

@@ -3,7 +3,7 @@ from database.models import Result, db, Rating, User
 
 # Получить рейтинг пользователей
 def get_rating_db(level):
-    user_position = Rating.query.order_by(Rating.user_correct_answer.desc()).filter(level=level)
+    user_position = Rating.query.order_by(Rating.user_correct_answer.desc()).filter_by(level=level)
     user_ids = [{i.user_id: i.user_correct_answer} for i in user_position]
 
     return user_ids[:5]
@@ -21,7 +21,7 @@ def add_user_answer_db(user_id, user_answer, correctness):
 # Добавление в рэйтинг
 def add_user_rating_db(user_id, correct_answer, level):
     # Проверка есть ли пользователь в таблице (Rating)
-    user_rating = Rating.query.filter(user_id=user_id, level=level).first()
+    user_rating = Rating.query.filter_by(user_id=user_id, level=level).first()
     if user_rating:
         user_rating.user_correct_ansswer += correct_answer
 
@@ -37,7 +37,7 @@ def add_user_rating_db(user_id, correct_answer, level):
 def get_user_position(user_id, level, correct_answers):
     register_user_rating = add_user_rating_db(user_id, correct_answers, level)
 
-    user_position = Rating.query.order_by(Rating.user_correct_answer.desc()).filter(level=level)
+    user_position = Rating.query.order_by(Rating.user_correct_answer.desc()).filter_by(level=level)
     user_ids = [i.user_id for i in user_position]
 
     return user_ids.index(user_id) + 1
